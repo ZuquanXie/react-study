@@ -1,28 +1,38 @@
+/* global window */
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Context from './Context';
 import './App.css';
 
-class App extends Component {
-  render() {
+const AppLinksList = ({ appIndex }) => {
+    const linkNodes = [];
+    for (let key in appIndex) {
+        if (appIndex.hasOwnProperty(key)) {
+            linkNodes.push(
+                <a key={key} href={key}>
+                    <li>{key.substr(1)}</li>
+                </a>
+            )
+        }
+    }
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+        <ul>
+            {linkNodes}
+        </ul>
+    )
+};
+
+const appIndex = {
+    '/Context': <Context/>
+};
+
+class App extends Component {
+    render () {
+        return (
+            <div className="App">
+                {appIndex[window.location.pathname] || <AppLinksList appIndex={appIndex} />}
+            </div>
+        );
+    }
 }
 
 export default App;
